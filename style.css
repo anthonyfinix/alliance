@@ -1,0 +1,132 @@
+/*
+Theme Name: Alliance
+Theme URI: http://wordpress.org/themes/twentythirteen
+Author: Anthony Finix
+Author URI: http://wordpress.org/
+Description: The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a vibrant color scheme and matching header images, beautiful typography and icons, and a flexible layout that looks great on any device, big or small.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: black, brown, orange, tan, white, yellow, light, one-column, two-columns, right-sidebar, flexible-width, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, translation-ready
+Text Domain: twentythirteen
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+/* Rules for sizing the icon. */
+.material-icons.md-14 {
+  font-size: 14px;
+}
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+#navbarNav {
+  font-size: 14px;
+}
+#navbarNav .nav-link {
+  font-size: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.offer-owl-carousel .card {
+  min-height: 300px;
+}
+.offer-card,
+.company-card {
+  color: black;
+}
+.offer-card .card,
+.company-card .card {
+  transition: all ease-in 0.2s;
+}
+.offer-card:hover,
+.company-card:hover {
+  text-decoration: none;
+  color: black;
+}
+.offer-card .card:hover,
+.company-card .card:hover {
+  background-color: white;
+  color: black;
+}
+.offers-wrapper {
+  box-shadow: 0px -10px 5px 5px rgba(0, 0, 0, 0.904);
+}
+.post_link_icon {
+  border: 2px solid rgba(0, 0, 0, 0.452);
+  width: 27px;
+  height: 27px;
+  transition: .5s ease-in all;
+}
+.offer-card .card:hover .post_link_icon{
+  background-color: #007bff;
+}
+.post_link_icon > span{
+  color:  rgba(0, 0, 0, 0.452);
+}
+.offer-card .card:hover .post_link_icon > span{
+  color: white;
+}
+.company-card .company-view-details-btn{
+  border: 2px solid rgba(0, 0, 0, 0.247)
+}
+.company-list-card{
+  color: black;
+}
+.company-list-card:hover{
+  color: black;
+  text-decoration: none;
+}
