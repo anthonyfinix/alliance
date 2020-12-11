@@ -38,7 +38,6 @@
                 <a class="btn btn-sm btn-primary" href="<?php echo get_site_url() . '/companyarchive' ?>"> View All</a>
             </div>
             <div class="row">
-    
                 <?php get_template_part('custom/section', 'companies') ?>
             </div>
         </div>

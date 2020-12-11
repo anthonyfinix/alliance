@@ -12,6 +12,7 @@ if (isset($_POST['submit'])) {
 	$mobile_number = $_POST['mobile_number'];
 	$serviceOffered = $_POST['serviceOffered'];
 	$address = $_POST['address'];
+	$avatar = $_FILES['avatar'];
 
 	if (isset($user_email) && !empty($user_email)) {
 		wp_update_user(array(
@@ -83,6 +84,7 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 				background-repeat:no-repeat;
 				background-position:center;
 				border: 5px solid white;
+				background-color: white;
 				">
 		</div>
 		<div>
