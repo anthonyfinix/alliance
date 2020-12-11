@@ -32,7 +32,10 @@
     </nav>
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="<?php echo get_site_url() ?>">81 High Street Alliance</a>
+            <a class="navbar-brand" href="<?php echo get_site_url() ?>">
+            <img src="<?php echo get_template_directory_uri() ?>/assets/img/81highsteet.png" width="50px">
+                81 High Street Alliance
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
