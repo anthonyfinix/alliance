@@ -12,6 +12,7 @@ while ($query->have_posts()) {
     } else {
         $imageUrl = 'http://localhost/wordpress/wp-content/uploads/2020/12/default_logo.png';
     }
+    // $companyName = get_user_meta( $userId, 'first_name', $single:boolean )
 ?>
 
     <a class="item offer-card" href="<?php echo get_permalink(get_post()) ?>">
@@ -29,7 +30,7 @@ while ($query->have_posts()) {
                     background-position:center;
                     ">
                     </div>
-                    <p class="pt-0 mb-0"><?php echo the_author_nickname() ?></p>
+                    <p class="pt-0 mb-0"><?php echo get_the_author_meta( 'first_name' ) ?></p>
                 </div>
                 <div class="post_link_icon rounded-circle">
                     <span class="material-icons mb-0">keyboard_arrow_right</span>

@@ -2,7 +2,10 @@
 // The Query
 $user_query = new WP_User_Query(array(
     'role' => 'company',
-    'paged' => 1
+    'paged' => 1,
+    'number' => 8,
+    'orderby' => 'registered',
+    "order" => 'DESC'
 ));
 
 // User Loop

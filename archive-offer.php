@@ -18,15 +18,13 @@ background-position: top center;
             } else {
                 $imageUrl = 'http://localhost/wordpress/wp-content/uploads/2020/12/default_logo.png';
             }
-
-
     ?>
             <div class="card card-body mb-3" style="height: 100%;">
                 <h6><?php the_title(); ?></h6>
                 <small><?php the_content(); ?></small>
                 <div class="d-flex align-items-center mt-auto">
-                    <img src='<?php echo $imageUrl ?>' width="40px" height="40px" class="rounded-circle" />
-                    <h5 class="pt-0 mb-0"><?php echo the_author_nickname() ?></h5>
+                    <img src='<?php echo $imageUrl ?>' width="40px" height="40px" class="rounded-circle mr-3" />
+                    <h5 class="pt-0 mb-0"><?php echo get_the_author_meta( 'first_name') ?></h5>
                 </div>
             </div>
     <?php

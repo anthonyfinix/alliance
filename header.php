@@ -17,23 +17,26 @@
 
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
-    <nav class="bg-primary py-2 px-2 d-md-flex text-white d-none">
+    <nav class="bg-primary py-2 px-2 d-md-flex align-items-center text-white d-none">
+        <a href="https://www.facebook.com/travelhuge/" target="_blank" class="ml-3 mr-3">
+            <img src="<?php echo get_template_directory_uri() ?>/assets/img/facebook.svg" width="15px" height="15px" alt="">
+        </daiv>
+        <a href="https://www.instagram.com/travelhuge/" target="_blank" class="mr-3" >
+            <img src="<?php echo get_template_directory_uri() ?>/assets/img/instagram.svg" width="15px" height="15px" alt="">
+        </a>
+        <a href="https://www.linkedin.com/company/travelhuge-com/" target="_blank" class="mr-3" >
+            <img src="<?php echo get_template_directory_uri() ?>/assets/img/linkedin.svg" width="15px" height="15px" alt="">
+        </a>
+        <div class="mx-4" style="border: 1px solid white;height:15px"></div>
         <div class="d-flex align-items-center">
-            <span class="material-icons md-14">call</span>
-            <small class="mb-0 ml-2">9818031042</small>
-        </div>
-        <div class="d-flex align-items-center ml-4">
             <span class="material-icons md-14">mail</span>
-            <small class="mb-0 ml-2">anthonyfinix@gmail.com</small>
-        </div>
-        <div class="ml-auto d-flex align-items-center">
-            <span class="material-icons md-18">facebook</span>
+             <a href="mailto:support@eproductzone.com"> <small class="mb-0 ml-2 text-white">support@eproductzone.com</small></a>
         </div>
     </nav>
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="<?php echo get_site_url() ?>">
-            <img src="<?php echo get_template_directory_uri() ?>/assets/img/81highsteet.png" width="50px">
+                <img src="<?php echo get_template_directory_uri() ?>/assets/img/81highsteet.png" width="50px">
                 81 High Street Alliance
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">

@@ -35,10 +35,13 @@
                     <h5 class="mb-0  font-weight-bold">Companies</h5>
                     <small>Companies Registered</small>
                 </div>
-                <a class="btn btn-sm btn-primary" href="<?php echo get_site_url() . '/companyarchive' ?>"> View All</a>
+                <a class="btn btn-sm btn-primary" href="<?php echo get_site_url() . '/company-archive' ?>"> View All</a>
             </div>
-            <div class="row">
+            <div data-page_number='1' class="row companies-ajax-wrapper">
                 <?php get_template_part('custom/section', 'companies') ?>
+            </div>
+            <div class="mt-5 text-center load-more-button-wrapper">
+                <button id="load_more_company_btn" class="btn btn-primary">Load More</button>
             </div>
         </div>
     </div>

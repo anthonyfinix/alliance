@@ -29,7 +29,7 @@ background-position: top center;
                 background-position:center;
                 ">
                 </div>
-                <h6 class="font-weight-bold mb-0"><?php the_author(); ?></h6>
+                <h6 class="font-weight-bold mb-0"><?php get_the_author_meta( 'first_name' )  ?></h6>
             </div>
             <div class="card card-body">
                 <h5 class="font-weight-bold"><?php the_title() ?></h5>
