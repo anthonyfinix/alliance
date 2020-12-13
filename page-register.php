@@ -8,7 +8,7 @@ background-position: top center;
 <main>
     <div class="container my-5">
         <h5 class="text-center font-weight-bold mb-2">REGISTER</h5>
-        <div class="card card-body mx-auto" style="max-width: 350px;">
+        <div class="card card-body mx-auto" style="max-width: 600px;">
             <?php
             if (have_posts()) {
                 the_content();

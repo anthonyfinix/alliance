@@ -30,5 +30,8 @@ background-position: top center;
     <?php
         endwhile;
     endif; ?>
-    <?php the_posts_pagination() ?>
+    <div class="d-flex justify-content-between my-4">
+        <?php posts_nav_link(' ','<div class="btn btn-primary btn-sm d-flex align-items-center"> <p class="mb-0">Prev</p> <span class="material-icons">chevron_left</span></div> ','<div class="btn btn-primary btn-sm d-flex align-items-center"> <p class="mb-0">Next</p> <span class="material-icons">chevron_right</span></div>'); ?>
+    </div>
 </div>
+<?php get_footer() ?>

@@ -133,3 +133,12 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .main-footer > .container{
   min-height: 220px;
 }
+.um-s1, .um-s2 {
+  display: block !important;
+  border: 1px solid #ddd !important;
+  font-size: 15px !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+    width: 100%;
+    box-sizing: border-box !important;
+}
