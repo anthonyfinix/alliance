@@ -1,13 +1,9 @@
 <?php get_header() ?>
-<div class="header-cover" style="
-height:150px;
-background-image: url('<?php echo get_template_directory_uri() ?>/assets/img/hero.jpg');
+<main class="py-1" style="background-image: url('<?php echo get_template_directory_uri() ?>/assets/img/hero.jpg');
 background-size: cover;
-background-position: top center;
-"></div>
-<main>
+background-position: top center;">
     <div class="container my-5">
-        <h5 class="text-center font-weight-bold mb-2">REGISTER</h5>
+        <h5 class="text-center font-weight-bold mb-2 text-white">REGISTER</h5>
         <div class="card card-body mx-auto" style="max-width: 600px;">
             <?php
             if (have_posts()) {

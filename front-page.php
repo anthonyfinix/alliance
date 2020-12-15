@@ -4,9 +4,21 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="<?php echo get_template_directory_uri() ?>/assets/img/hero.jpg" class="d-block w-100" alt="...">
+                <?php if(!is_user_logged_in()): ?>
+                <div class="carousel-caption d-none d-md-block bg-light text-dark text-right p-md-5" style="bottom: 0px; right: 0px">
+                    <p class="mb-3">Get your company registered</p>
+                    <a class="btn btn-primary" href="<?php echo get_site_url().'/register' ?>">Register</a>
+                </div>
+                <?php endif ?>
             </div>
             <div class="carousel-item">
                 <img src="<?php echo get_template_directory_uri() ?>/assets/img/hero.jpg" class="d-block w-100" alt="...">
+                <?php if(!is_user_logged_in()): ?>
+                <div class="carousel-caption d-none d-md-block bg-light text-dark text-right p-md-5" style="bottom: 0px; right: 0px">
+                    <p class="mb-3">Get your company registered</p>
+                    <a class="btn btn-primary" href="<?php echo get_site_url().'/register' ?>">Register</a>
+                </div>
+                <?php endif ?>
             </div>
         </div>
     </div>

@@ -61,10 +61,12 @@ function my_action_javascript()
                     this.innerHTML = 'Please Wait';
                     let companyWrapper = document.querySelector('.companies-ajax-wrapper');
                     let currentPageNumber = parseInt(companyWrapper.dataset.page_number);
+                    let serviceType = companyWrapper.dataset.service_type;
                     var data = {
                         'action': 'get_next_companies',
                         'currentPage': currentPageNumber,
-                        'start_with': companyWrapper.dataset.start_with
+                        'start_with': companyWrapper.dataset.start_with,
+                        'service_type': serviceType
                     };
                     jQuery.post("<?php echo admin_url('admin-ajax.php'); ?>", data, (response) => {
                         companyWrapper.dataset.page_number = currentPageNumber + 1;
@@ -151,6 +153,7 @@ function my_action_javascript()
 
 
 add_action('wp_ajax_get_next_companies', 'get_next_company');
+add_action('wp_ajax_nopriv_get_next_companies', 'get_next_company');
 
 function get_next_company()
 {
@@ -162,10 +165,13 @@ function get_next_company()
     } else {
         $number = 8;
     }
+    $start_with = '*';
     if (isset($_POST['start_with'])) {
         $start_with = $_POST['start_with'];
-    } else {
-        $start_with = '*';
+    }
+    $serviceType = '*';
+    if (isset($_POST['service_type'])) {
+        $serviceType = $_POST['service_type'];
     }
     $user_query = new WP_User_Query(array(
         'role' => 'company',
@@ -176,8 +182,13 @@ function get_next_company()
     ));
     $response = array();
     foreach ($user_query->get_results() as $user) {
-        if($start_with != '*' && $user->first_name[0] != $start_with){
+        if ($start_with != '*' && $user->first_name[0] != $start_with) {
             continue;
+        }
+        if($serviceType != '*'){
+            if(!isset(get_user_meta( $user->ID, 'servicetype')[0]) || (get_user_meta( $user->ID, 'servicetype')[0] != $serviceType)){
+                continue;
+            }
         }
         $response[$user->ID] = array(
             'profileUrlSlug' => get_user_meta($user->ID, 'um_user_profile_url_slug_user_login'),

@@ -31,8 +31,8 @@ if (isset($_POST['avatar_submit'])) {
 		$attach_data = wp_generate_attachment_metadata($attach_id, $file);
 		wp_update_attachment_metadata($attach_id, $attach_data);
 
-		update_user_meta(get_current_user_id(), 'profile_photo', $avatar['name']);
-		move_uploaded_file($avatar['tmp_name'], _wp_upload_dir()['basedir'] . '/ultimatemember/' . get_current_user_id() . '/' . $_FILES['avatar']['name']);
+		update_user_meta($user->ID, 'profile_photo', $avatar['name']);
+		move_uploaded_file($avatar['tmp_name'], _wp_upload_dir()['basedir'] . '/ultimatemember/' . $user->ID . '/' . $_FILES['avatar']['name']);
 		header("Refresh:0");
 	}
 }
@@ -42,8 +42,16 @@ if (isset($_POST['submit'])) {
 	$user_email = $_POST['user_email'];
 	$mobile_number = $_POST['mobile_number'];
 	$serviceOffered = $_POST['serviceOffered'];
+	$user_url = $_POST['user_url'];
+	$servicetype = $_POST['servicetype'];
 	$address = $_POST['address'];
 
+	if (isset($user_url) && !empty($user_url)) {
+		update_user_meta($user->ID, 'user_url', $user_url);
+	}
+	if (isset($servicetype) && !empty($servicetype)) {
+		update_user_meta($user->ID, 'servicetype', $servicetype);
+	}
 	if (isset($user_email) && !empty($user_email)) {
 		wp_update_user(array(
 			'ID' => $user->ID,
@@ -54,15 +62,12 @@ if (isset($_POST['submit'])) {
 
 	if (isset($mobile_number) && !empty($mobile_number)) {
 		update_user_meta($user->ID, 'mobile_number', $mobile_number);
-		echo '<div class="alert alert-success" role="alert">Mobile Number updated</div>';
 	}
 	if (isset($serviceOffered) && !empty($serviceOffered)) {
 		update_user_meta($user->ID, 'servicesOffered', $serviceOffered);
-		echo '<div class="alert alert-success" role="alert">Services and Description updated</div>';
 	}
 	if (isset($address) && !empty($address)) {
 		update_user_meta($user->ID, 'address', $address);
-		echo '<div class="alert alert-success" role="alert">Address Updated</div>';
 	}
 	header("Refresh:0");
 }
@@ -118,13 +123,13 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 		<li class="nav-item" role="presentation">
 			<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-offers" role="tab"> Offers</a>
 		</li>
-		<?php if (get_current_user_id() == $user->ID) : ?>
+		<?php if (um_profile_id() == $user->ID) : ?>
 			<li class="nav-item" role="presentation">
 				<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-update" role="tab"> Update Details</a>
 			</li>
 		<?php endif ?>
 	</ul>
-	<div class="tab-content" id="pills-tabContent">
+	<div class="tab-content mb-5" id="pills-tabContent">
 		<div class="tab-pane fade show active" id="pills-description" role="tabpanel">
 			<div class="row">
 				<div class="col-md-8">
@@ -161,6 +166,28 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 								?>
 							</p>
 						</div>
+						<div class="d-flex align-items-start mb-4">
+							<span class="material-icons mr-2">link</span>
+							<p class="mb-0">
+								<?php if ($userMeta['user_url'][0]) {
+									echo $userMeta['user_url'][0];
+								} else {
+									echo 'Not provided please click on Update Details';
+								}
+								?>
+							</p>
+						</div>
+						<div class="d-flex align-items-start mb-4">
+							<span class="material-icons mr-2">business</span>
+							<p class="mb-0">
+								<?php if ($userMeta['servicetype'][0]) {
+									echo $userMeta['servicetype'][0];
+								} else {
+									echo 'Not provided please click on Update Details';
+								}
+								?>
+							</p>
+						</div>
 						<div class="d-flex align-items-start">
 							<span class="material-icons mr-2">location_pin</span>
 							<p class="mb-0">
@@ -190,7 +217,7 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 					}
 					?>
 				</div>
-				<?php if (get_current_user_id() == $user->ID) : ?>
+				<?php if (um_profile_id() == $user->ID) : ?>
 					<div class="col-md-4">
 						<div class="card card-body bg-primary text-white">
 							<p>Add your latest offers on our website</p>
@@ -200,11 +227,10 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 						</div>
 					</div>
 				<?php endif ?>
-
 			</div>
 		</div>
 
-		<?php if (get_current_user_id() == $user->ID) : ?>
+		<?php if (um_profile_id() == $user->ID) : ?>
 			<div class="tab-pane fade show" id="pills-update" role="tabpanel">
 				<form method="post">
 					<div class="row">
@@ -218,12 +244,27 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 									<label for="user_email">Email Address</label>
 									<input type="text" class="form-control my-2" value="<?php echo $user->user_email ?>" placeholder="Enter new email address" name="user_email" />
 								</div>
+								<div class="form-group">
+									<label for="user_url">Website</label>
+									<input type="text" class="form-control my-2" value="<?php echo $userMeta['user_url'][0] ?>" placeholder="Enter new email address" name="user_url" />
+								</div>
+								<div class="form-group">
+									<label for="user_email">Servce Type</label>
+									<select name="servicetype" class="form-control">
+										<option <?php if($userMeta['servicetype'][0] == 'Interior Designing'){echo 'selected';} ?> >Interior Designing</option>
+										<option <?php if($userMeta['servicetype'][0] == 'Information Technology'){echo 'selected';} ?> >Information Technology</option>
+										<option <?php if($userMeta['servicetype'][0] == 'Web Development'){echo 'selected';} ?> >Web Development</option>
+										<option <?php if($userMeta['servicetype'][0] == 'Restaurent'){echo 'selected';} ?> >Restaurent</option>
+										<option <?php if($userMeta['servicetype'][0] == 'Real Estate'){echo 'selected';} ?> >Real Estate</option>
+										<option <?php if($userMeta['servicetype'][0] == 'Cafe'){echo 'selected';} ?> >Cafe</option>
+									</select>
+								</div>
 								<div>
 									<label for="mobile_number">Mobile Number</label>
 									<input type="text" class="form-control my-2" value="<?php echo $userMeta['mobile_number'][0] ?>" placeholder="Enter new mobile number" name="mobile_number" />
 								</div>
 								<div>
-									<label for="serviceOffered">Description and Service Offered</label>
+									<label for="serviceOffered">Description</label>
 									<textarea class="form-control my-2" placeholder="Description and Services Offered" name="serviceOffered"><?php print($userMeta['serviceOffered'][0]) ?></textarea>
 								</div>
 								<div>
