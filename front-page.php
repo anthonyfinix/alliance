@@ -1,29 +1,35 @@
 <?php get_header() ?>
-<section>
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="<?php echo get_template_directory_uri() ?>/assets/img/hero.jpg" class="d-block w-100" alt="...">
-                <?php if(!is_user_logged_in()): ?>
-                <div class="carousel-caption d-none d-md-block bg-light text-dark text-right p-md-5" style="bottom: 0px; right: 0px">
-                    <p class="mb-3">Get your company registered</p>
-                    <a class="btn btn-primary" href="<?php echo get_site_url().'/register' ?>">Register</a>
-                </div>
-                <?php endif ?>
+<section id="hero-section" class="d-flex flex-column justify-content-center align-item-center">
+    <div class="container d-flex flex justify-content-center align-items-center call-to-action-comp">
+        <div class="float-elem mr-5 d-md-block d-none">
+            <img src="<?php echo get_template_directory_uri() ?>/assets/img/hero-float-elem.jpg" width="480px" alt="">
+            <div></div>
+        </div>
+        <div class="text-white ms-5">
+            <h1>Lets Join our hands</h1>
+            <h1>and <span class="fw-bold">Collaborate</span></h1>
+            <?php if(!is_user_logged_in()): ?>
+            <a href="<?php echo get_site_url().'/register' ?>" class="btn btn-light rounded-pill fw-bold mt-3" style="color:#0058ac">Register</a>
+            <?php endif ?>
+            <?php if(is_user_logged_in()): ?>
+            <a href="<?php echo get_site_url().'/company-archive' ?>" class="btn btn-light rounded-pill fw-bold mt-3" style="color:#0058ac">Contributers</a>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="text-white w-100" style="position: absolute; bottom: 20px">
+        <div class="d-flex justify-content-between container">
+            <div>
+                <small>An Initiative by</small>
+                <small>Consultancy Today</small>
             </div>
-            <div class="carousel-item">
-                <img src="<?php echo get_template_directory_uri() ?>/assets/img/hero.jpg" class="d-block w-100" alt="...">
-                <?php if(!is_user_logged_in()): ?>
-                <div class="carousel-caption d-none d-md-block bg-light text-dark text-right p-md-5" style="bottom: 0px; right: 0px">
-                    <p class="mb-3">Get your company registered</p>
-                    <a class="btn btn-primary" href="<?php echo get_site_url().'/register' ?>">Register</a>
-                </div>
-                <?php endif ?>
+            <div class="d-flex">
+                <small class="mb-0 me-3">Collaboratives and their offers</small>
+                <span class="material-icons">arrow_circle_down</span>
             </div>
         </div>
     </div>
 </section>
-<main>
+<main style="position: relative;top:100vh;z-index:4">
     <div class="offers-wrapper py-5 bg-primary text-white">
         <div class="container">
             <div class="d-flex align-items-center justify-content-between mb-3 px-md-3">
@@ -57,5 +63,4 @@
             </div>
         </div>
     </div>
-</main>
-<?php get_footer() ?>
+    <?php get_footer() ?>

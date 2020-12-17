@@ -5,54 +5,47 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
-    <nav class="bg-primary py-2 px-2 d-md-flex align-items-center text-white d-none">
-        <a href="https://www.facebook.com/travelhuge/" target="_blank" class="ml-3 mr-3">
-            <img src="<?php echo get_template_directory_uri() ?>/assets/img/facebook.svg" width="15px" height="15px" alt="">
-        </daiv>
-        <a href="https://www.instagram.com/travelhuge/" target="_blank" class="mr-3" >
-            <img src="<?php echo get_template_directory_uri() ?>/assets/img/instagram.svg" width="15px" height="15px" alt="">
-        </a>
-        <a href="https://www.linkedin.com/company/travelhuge-com/" target="_blank" class="mr-3" >
-            <img src="<?php echo get_template_directory_uri() ?>/assets/img/linkedin.svg" width="15px" height="15px" alt="">
-        </a>
-        <div class="mx-4" style="border: 1px solid white;height:15px"></div>
-        <div class="d-flex align-items-center">
-            <span class="material-icons md-14">mail</span>
-             <a href="mailto:support@eproductzone.com"> <small class="mb-0 ml-2 text-white">support@eproductzone.com</small></a>
-        </div>
-    </nav>
-    <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="<?php echo get_site_url() ?>">
-                <img src="<?php echo get_template_directory_uri() ?>/assets/img/81highsteet.png" width="50px">
-                81 High Street Alliance
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <?php wp_nav_menu(array(
-                'theme_location' => 'primary-menu',
-                'depth'           => 1, // 1 = no dropdowns, 2 = with dropdowns.
-                'container'       => 'div',
-                'container_class' => 'collapse navbar-collapse ml-auto',
-                'container_id'    => 'navbarNav',
-                'menu_class'      => 'navbar-nav ml-auto',
-                'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-                'walker'          => new WP_Bootstrap_Navwalker(),
-            )); ?>
+    <header id="main-header" class="w-100">
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex" href="<?php echo get_site_url() ?>">
+                    <img class="me-2" src="<?php echo get_template_directory_uri() ?>/assets/img/81highsteet.svg" width="50px" height="50px">
+                    <div>
+                        <small style="letter-spacing: 1px;" class="font-weight-light mb-0 d-block">High Street</small>
+                        <small style="font-size: 14px;" class="font-weight-light d-block">Alliance</small>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <?php if(!is_front_page(  )) :?>
+                            <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                                <a class="nav-link mb-0" href="<?php echo get_site_url() ?>">Home</a>
+                            </li>
+                        <?php endif ?>
+                        <?php if(!is_user_logged_in()): ?>
+                            <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                                <a class="nav-link mb-0" href="<?php echo get_site_url().'/login' ?>">Login</a>
+                            </li>
+                            <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                                <a class="nav-link mb-0" href="<?php echo get_site_url().'/register' ?>">Sign Up</a>
+                            </li>
+                        <?php endif ?>
+                    </ul>
+                </div>
+            </div>
         </nav>
-
     </header>
