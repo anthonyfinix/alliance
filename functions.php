@@ -1,6 +1,8 @@
 <?php
 
 wp_enqueue_style('style', get_stylesheet_uri());
+wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/bootstrap/bootstrap.min.css');
+wp_enqueue_script('main', get_template_directory_uri().'/assets/js/main.js' ,array('jquery'));
 
 
 function register_navwalker()
