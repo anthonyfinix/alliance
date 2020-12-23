@@ -5,12 +5,10 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <title>High Street Alliance</title>
     <?php wp_head(); ?>
 </head>
 
@@ -31,18 +29,42 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-center">
-                        <?php if(!is_front_page(  )) :?>
+                        <?php if (!is_front_page()) : ?>
                             <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
                                 <a class="nav-link mb-0" href="<?php echo get_site_url() ?>">Home</a>
                             </li>
                         <?php endif ?>
-                        <?php if(!is_user_logged_in()): ?>
+                        <?php if (!is_user_logged_in()) : ?>
                             <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
-                                <a class="nav-link mb-0" href="<?php echo get_site_url().'/login' ?>">Login</a>
+                                <a class="nav-link mb-0" href="<?php echo get_site_url() . '/login' ?>">Login</a>
                             </li>
                             <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
-                                <a class="nav-link mb-0" href="<?php echo get_site_url().'/register' ?>">Sign Up</a>
+                                <a class="nav-link mb-0" href="<?php echo get_site_url() . '/register' ?>">Sign Up</a>
                             </li>
+                        <?php endif ?>
+                        <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                            <a class="nav-link mb-0" href="<?php echo get_site_url() . '/company-archive' ?>">Collaborater</a>
+                        </li>
+                        <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                                <a class="nav-link mb-0" href="<?php echo get_site_url().'/contact-us' ?>">Contact Us</a>
+                            </li>
+                        <?php if (is_user_logged_in()) : ?>
+                            <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                                <a class="nav-link mb-0" href="<?php echo get_site_url() . '/user' ?>">Profile</a>
+                            </li>
+                            <li class="nav-item my-circle-btn d-flex align-items-center justify-content-between">
+                                <a class="nav-link mb-0" href="<?php echo get_site_url() . '/logout' ?>">Logout</a>
+                            </li>
+                        <?php endif ?>
+                        <?php if (is_front_page()) : ?>
+                            <div class="text-white d-flex align-items-center search-wrapper" style="position: relative;">
+                            <input class="search-textbox form-control" style="display: none;" type="text" />
+                            <div class="search-suggestion-wrapper" style="position: absolute;
+                        right: 30px;
+                        top:45px;
+                        max-width:60vw"></div>
+                            <span class="material-icons ms-3 search-button">search</span>
+                        </div>
                         <?php endif ?>
                     </ul>
                 </div>
