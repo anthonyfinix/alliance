@@ -1,8 +1,12 @@
 <?php
 
 wp_enqueue_style('style', get_stylesheet_uri());
-wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/bootstrap/bootstrap.min.css');
-wp_enqueue_script('main', get_template_directory_uri().'/assets/js/main.js' ,array('jquery'));
+wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/bootstrap/bootstrap.min.css');
+wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/bootstrap.min.js');
+wp_enqueue_style('owl-carousel', get_template_directory_uri() . '/assets/owlCarousel/owl.carousel.min.css');
+wp_enqueue_style('owl-carousel-default', get_template_directory_uri() . '/assets/owlCarousel/owl.theme.default.min.css');
+wp_enqueue_script('owl-carousel', get_template_directory_uri() . '/assets/owlCarousel/owl.carousel.min.js', array('jquery'));
+wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array('jquery', 'bootstrap', 'owl-carousel'));
 
 
 function register_navwalker()
@@ -18,7 +22,123 @@ register_nav_menus(
 );
 
 // load more company
+add_action('wp_footer', 'front_page_search');
+function front_page_search()
+{
+?>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            let searchWrapper = document.querySelector('.search-wrapper');
+            let searchButton = searchWrapper.querySelector('.search-button');
+            let parentNav = searchWrapper.parentNode.querySelectorAll('.nav-item');
+            let suggestionWrapper = searchWrapper.querySelector('.search-suggestion-wrapper');
+            let closeButton = document.createElement('span');
+            closeButton.setAttribute('class', 'material-icons ms-2 search-close-button');
+            closeButton.onclick = function() {
+                searchWrapper.removeChild(this);
+                searchWrapper.appendChild(searchButton);
+                parentNav.forEach(navItem => {
+                    navItem.classList.remove('d-none');
+                    navItem.classList.add('d-block');
+                });
+                searchWrapper.querySelector('.search-textbox').value = '';
+                searchWrapper.querySelector('.search-textbox').style.display = 'none';
+                suggestionWrapper.innerHTML = '';
+                document.querySelector('#hero-section > .container').style.filter = "blur(0px)";
+                searchWrapper.parentNode.classList.add('ms-auto')
+                searchWrapper.parentNode.classList.remove('w-100')
+                searchWrapper.classList.remove('flex-grow-1')
+            }
+            closeButton.innerHTML = 'close';
+            searchButton.addEventListener('click', function() {
+                document.querySelector('#hero-section > .container').style.filter = "blur(4px)";
+                parentNav.forEach(navItem => {
+                    navItem.classList.add('d-none');
+                });
+                searchWrapper.parentNode.classList.remove('ms-auto');
+                searchWrapper.parentNode.classList.add('w-100');
+                searchWrapper.classList.add('flex-grow-1');
+                searchWrapper.querySelector('.search-textbox').style.display = 'block';
+                searchWrapper.querySelector('.search-textbox').addEventListener('keyup', function() {
+                    if (this.value != '') {
+                        let searchingIcon = document.createElement('span');
+                        searchingIcon.setAttribute('class', 'material-icons text-dark');
+                        searchingIcon.setAttribute('style', 'position:absolute;right:40px;opacity:.2');
+                        searchingIcon.innerHTML = 'hourglass_full';
+                        searchWrapper.appendChild(searchingIcon);
+                        let data = {
+                            'searchString': this.value,
+                            'action': 'get_searched_company'
+                        }
+                        jQuery.post("<?php echo admin_url('admin-ajax.php'); ?>", data, (response) => {
+                            searchWrapper.removeChild(searchingIcon);
+                            suggestionWrapper.innerHTML = '';
+                            let users = JSON.parse(response);
+                            if (!!searchWrapper.querySelector('.search-close-button')) {
+                                if (Object.keys(users).length > 0 && (searchWrapper.querySelector('.search-textbox').value.length > 0)) {
+                                    let suggestions = Object.values(users).map((user) => {
+                                        let suggestion = document.createElement('a');
+                                        suggestion.setAttribute('href', '<?php echo get_site_url() ?>/user/' + user.user_login)
+                                        suggestion.setAttribute('class', 'text-end bg-white rounded text-dark p-2 d-block mt-2');
+                                        suggestion.style.textDecoration = 'none';
+                                        suggestion.innerHTML = user.first_name;
+                                        suggestionWrapper.innerHTML = '';
+                                        return suggestion;
+                                    })
+                                    suggestions.forEach(suggestion => {
+                                        suggestionWrapper.appendChild(suggestion)
+                                    })
+                                }
+                                console.log(users);
+                            };
+                        });
+                    } else {
+                        suggestionWrapper.innerHTML = ''
+                    }
+                });
+                searchWrapper.removeChild(searchButton);
+                searchWrapper.appendChild(closeButton);
+            });
+        })
+    </script>
+<?php
+}
 
+add_action('wp_ajax_get_searched_company', 'get_searched_company');
+add_action('wp_ajax_nopriv_get_searched_company', 'get_searched_company');
+
+function get_searched_company()
+{
+    global $wpdb; // this is how you get access to the database
+    $searchString = $_POST['searchString'];
+    $query = new WP_User_Query(array(
+        'role' => 'company',
+        'meta_query' => array(
+            array(
+                'key' => 'first_name',
+                'value' => $searchString,
+                'compare' => 'LIKE'
+            )
+        )
+    ));
+    $users = $query->get_results();
+    $response = array();
+    foreach ($users as $key => $user) {
+        // check approved or not
+        if (get_user_meta($user->data->ID, 'account_status')[0] != 'approved') {
+            continue;
+        }
+        $response[$user->data->ID] = $user->data;
+        // add first name
+        $response[$user->data->ID]->first_name = get_user_meta($user->data->ID, 'first_name')[0];
+        // $response[$user->data->ID]->offers = get_posts(array(
+        //     'numberposts'      => 3,
+        //     'post_type'        => 'offer'
+        // ));
+    }
+    print_r(json_encode($response));
+    wp_die();
+}
 
 add_action('wp_footer', 'my_action_javascript'); // Write our JS below here
 
@@ -30,7 +150,6 @@ function my_action_javascript()
                 let loadMoreButton = document.querySelector('#load_more_company_btn');
                 loadMoreButton.addEventListener('click', function() {
                     this.setAttribute('disabled', true);
-                    this.innerHTML = 'Please Wait';
                     let companyWrapper = document.querySelector('.companies-ajax-wrapper');
                     let currentPageNumber = parseInt(companyWrapper.dataset.page_number);
                     var data = {
@@ -153,7 +272,6 @@ function my_action_javascript()
     </script>
 <?php }
 
-
 add_action('wp_ajax_get_next_companies', 'get_next_company');
 add_action('wp_ajax_nopriv_get_next_companies', 'get_next_company');
 
@@ -187,8 +305,8 @@ function get_next_company()
         if ($start_with != '*' && $user->first_name[0] != $start_with) {
             continue;
         }
-        if($serviceType != '*'){
-            if(!isset(get_user_meta( $user->ID, 'servicetype')[0]) || (get_user_meta( $user->ID, 'servicetype')[0] != $serviceType)){
+        if ($serviceType != '*') {
+            if (!isset(get_user_meta($user->ID, 'servicetype')[0]) || (get_user_meta($user->ID, 'servicetype')[0] != $serviceType)) {
                 continue;
             }
         }
