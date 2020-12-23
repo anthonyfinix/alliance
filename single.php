@@ -1,4 +1,4 @@
-<?php # Template Name: Company Archive
+<?php
 get_header();
 ?>
 <?php

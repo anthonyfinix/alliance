@@ -12,16 +12,15 @@ while ($query->have_posts()) {
     } else {
         $imageUrl = 'http://localhost/wordpress/wp-content/uploads/2020/12/default_logo.png';
     }
-    // $companyName = get_user_meta( $userId, 'first_name', $single:boolean )
 ?>
 
     <a class="item offer-card" href="<?php echo get_permalink(get_post()) ?>">
         <div class="card card-body m-2" style="height: 100%;">
-            <p><?php echo get_the_title(); ?></p>
+            <p class="fw-bold"><?php echo get_the_title(); ?></p>
             <small class="font-weight-light"><?php echo get_the_excerpt(); ?></small>
             <div class="d-flex align-items-center justify-content-between  mt-auto">
                 <div class="d-flex align-items-center">
-                    <div class="mr-2 rounded-circle" style="
+                    <div class="me-2 rounded-circle" style="
                     width: 20px;
                     height: 20px;
                     background-image: url('<?php echo $imageUrl ?>');

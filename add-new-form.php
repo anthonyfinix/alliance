@@ -1,5 +1,9 @@
 <?php # Template Name: Add New Form
 get_header();
+if ( !is_user_logged_in() && is_page('add-new-offer')){
+    wp_redirect( get_site_url().'/login/' ); 
+    exit;
+}
 ?>
 <div class="wrap">
     <?php

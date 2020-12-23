@@ -91,6 +91,7 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 				background-position:center;
 				border: 5px solid white;
 				background-color: white;
+				position:relative
 				">
 			</div>
 		<?php } else { ?>
@@ -118,14 +119,14 @@ if (gettype($userMeta['profile_photo'][0]) == 'string') {
 	</div>
 	<ul class="nav nav-tabs mb-3 mt-5" id="pills-tab" role="tablist">
 		<li class="nav-item" role="presentation">
-			<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-description" role="tab"> Details</a>
+			<a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-description" role="tab"> Details</a>
 		</li>
 		<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-offers" role="tab"> Offers</a>
+			<a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-offers" role="tab"> Offers</a>
 		</li>
 		<?php if (um_profile_id() == $user->ID) : ?>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-update" role="tab"> Update Details</a>
+				<a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-update" role="tab"> Update Details</a>
 			</li>
 		<?php endif ?>
 	</ul>

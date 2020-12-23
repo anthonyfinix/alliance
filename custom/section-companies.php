@@ -33,8 +33,12 @@ if (!empty($user_query->get_results())) {
                     <button class="btn btn-light btn-sm company-view-details-btn mt-auto">View Details</button>
                 </div>
             </a>
-<?php }
+    <?php }
     }
 } else {
-    echo 'No users found.';
+    ?>
+    <div class="col-12">
+    <h3 class="text-center py-5 font-weight-bold" style="opacity: .4;">No Company Registered yet</h3>
+    </div>
+<?php
 }

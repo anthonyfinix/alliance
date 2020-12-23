@@ -28,23 +28,23 @@ background-position: top center;
 <div class="container">
     <div class="mt-5 mb-5 d-md-flex align-items-center justify-content-between">
         <h5 class="mb-0">Companies</h5>
-        <div class="form-group d-md-flex mb-0 align-items-center">
-            <div class="d-flex align-items-center mr-2">
-                <small class="mr-2">Filter by Service Type</small>
+        <div class="form-group filter-wrapper d-md-flex mb-0 align-items-center">
+            <div class="d-flex align-items-center me-2 service-type-wrapper">
+                <small class="me-2">Filter by Service Type</small>
                 <form method="POST">
                     <select name="servicetype" onchange="this.form.submit()" class="form-control form-control-sm">
                         <option <?php echo ($servicetype == '*') ? 'selected' : null ?> value="*">All</option>
-                        <option <?php echo ($servicetype == 'Interior Designing') ? 'selected' : null ?> >Interior Designing</option>
-                        <option <?php echo ($servicetype == 'Information Technology') ? 'selected' : null ?> >Information Technology</option>
-                        <option <?php echo ($servicetype == 'Web Development') ? 'selected' : null ?> >Web Development</option>
-                        <option <?php echo ($servicetype == 'Restaurent') ? 'selected' : null ?> >Restaurent</option>
-                        <option <?php echo ($servicetype == 'Real Estate') ? 'selected' : null ?> >Real Estate</option>
-                        <option <?php echo ($servicetype == 'Cafe') ? 'selected' : null ?> >Cafe</option>
+                        <option <?php echo ($servicetype == 'Interior Designing') ? 'selected' : null ?>>Interior Designing</option>
+                        <option <?php echo ($servicetype == 'Information Technology') ? 'selected' : null ?>>Information Technology</option>
+                        <option <?php echo ($servicetype == 'Web Development') ? 'selected' : null ?>>Web Development</option>
+                        <option <?php echo ($servicetype == 'Restaurent') ? 'selected' : null ?>>Restaurent</option>
+                        <option <?php echo ($servicetype == 'Real Estate') ? 'selected' : null ?>>Real Estate</option>
+                        <option <?php echo ($servicetype == 'Cafe') ? 'selected' : null ?>>Cafe</option>
                     </select>
                 </form>
             </div>
             <div class="d-flex align-items-center">
-                <small class="mr-2">Filter by Alphabet</small>
+                <small class="me-2">Filter by Alphabet</small>
                 <form method="POST">
                     <select name="start_with" class="form-control form-control-sm" onchange="this.form.submit()" style="max-width: 90px;">
                         <option value="*">All</option>
@@ -131,37 +131,43 @@ background-position: top center;
             </div>
         </div>
     </div>
-    <div class="row companies-ajax-wrapper" data-service_type="<?php echo (isset($servicetype)) ? $servicetype : '*' ?>" data-start_with="<?php echo (isset($start_with)) ? $start_with : '*' ?>" data-page_number='1'>
+    <div class="row companies-ajax-wrapper mb-5" data-service_type="<?php echo (isset($servicetype)) ? $servicetype : '*' ?>" data-start_with="<?php echo (isset($start_with)) ? $start_with : '*' ?>" data-page_number='1'>
         <?php
-        foreach ($users as $user) { ?>
+        if (sizeof($users) == 0) { ?>
+            <h1 class="text-center fw-bold my-5 py-5" style="opacity: 0.3;">No User Found</h1>
             <?php
-            $userId = $user->id;
-            if (isset($start_with) && $start_with != '*' && (strtoupper($user->first_name[0]) != $start_with)) {
-                continue;
-            }
-            if(isset($servicetype) && $servicetype != '*' && $servicetype != get_user_meta( $userId, 'servicetype')[0]){
-                continue;
-            }
-            $userProfileName = get_user_meta($userId, 'profile_photo')[0];
-            if (gettype($userProfileName) == 'string') {
-                $imageUrl = get_site_url() . '/wp-content/uploads/ultimatemember/' . $userId . '/' . $userProfileName;
-            } else {
-                $imageUrl = 'http://localhost/wordpress/wp-content/uploads/2020/12/default_logo.png';
-            }
-            ?>
-            <div class="col-md-6 mb-4">
-                <a class="company-list-card card flex-row justify-content-between align-items-center card-body mb-3" href="<?php echo get_site_url() . '/user/' . $user->user_login ?>" style="height: 100%;">
-                    <div>
-                        <h5 class="mb-0"> <?php echo $user->first_name; ?> </h5>
-                        <small> <?php echo $user->user_email; ?></small>
-                    </div>
-                    <img src="<?php echo $imageUrl ?>" width="40px" alt="">
-                </a>
+        } else {
+
+            foreach ($users as $user) { ?>
+                <?php
+                $userId = $user->id;
+                if (isset($start_with) && $start_with != '*' && (strtoupper($user->first_name[0]) != $start_with)) {
+                    continue;
+                }
+                if (isset($servicetype) && $servicetype != '*' && $servicetype != get_user_meta($userId, 'servicetype')[0]) {
+                    continue;
+                }
+                $userProfileName = get_user_meta($userId, 'profile_photo')[0];
+                if (gettype($userProfileName) == 'string') {
+                    $imageUrl = get_site_url() . '/wp-content/uploads/ultimatemember/' . $userId . '/' . $userProfileName;
+                } else {
+                    $imageUrl = 'http://localhost/wordpress/wp-content/uploads/2020/12/default_logo.png';
+                }
+                ?>
+                <div class="col-md-6 mb-4">
+                    <a class="company-list-card card flex-row justify-content-between align-items-center card-body mb-3" href="<?php echo get_site_url() . '/user/' . $user->user_login ?>" style="height: 100%;">
+                        <div>
+                            <h5 class="mb-0"> <?php echo $user->first_name; ?> </h5>
+                            <small> <?php echo $user->user_email; ?></small>
+                        </div>
+                        <img src="<?php echo $imageUrl ?>" width="40px" alt="">
+                    </a>
+                </div>
+            <?php } ?>
+            <div class="text-center py-5">
+                <button class="btn btn-sm btn-primary" id="load_more_companies_archieve_btn">Load more</button>
             </div>
         <?php } ?>
-    </div>
-    <div class="text-center py-5">
-        <button class="btn btn-sm btn-primary" id="load_more_companies_archieve_btn">Load more</button>
     </div>
 </div>
 <?php get_footer() ?>
