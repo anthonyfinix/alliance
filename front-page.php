@@ -34,7 +34,7 @@
                     <small>Latest offers from our collaborators</small>
                 </div>
                 <a class="view-all-posts-button d-flex align-item-center text-white rounded-pill ps-3 pe-2 py-1" style="text-decoration: none;border: 2px solid white;" href="<?php echo get_site_url() . '/offer' ?>">
-                    <small style="padding-top:3px">View All</small>
+                    <small class="d-md-block d-none" style="padding-top:3px">View All</small>
                     <span class="material-icons">keyboard_arrow_right</span>
                 </a>
             </div>

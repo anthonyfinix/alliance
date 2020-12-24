@@ -357,3 +357,16 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .search-close-button:hover,.search-button:hover{
   cursor: pointer;
 }
+@media (max-width: 765px) {
+  .header-cover{
+    height: 300px !important;
+  }
+  .my-circle-btn{
+    background-color: white;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .my-circle-btn > .nav-link{
+    color: black !important;
+  }
+}
