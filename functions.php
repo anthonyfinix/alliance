@@ -8,6 +8,18 @@ wp_enqueue_style('owl-carousel-default', get_template_directory_uri() . '/assets
 wp_enqueue_script('owl-carousel', get_template_directory_uri() . '/assets/owlCarousel/owl.carousel.min.js', array('jquery'));
 wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array('jquery', 'bootstrap', 'owl-carousel'));
 
+// UM Action
+function um_registration_complete_function( $args ) {
+
+//php mailer variables
+  $to = 'support@eproductzone.com';
+  $subject = "New Company Registered";
+  $message = $args;
+    $sent = wp_mail($to, $subject, strip_tags($message), $headers);
+ }
+
+//Here put your Validation and send mail
+add_action( 'um_registration_complete', 'um_registration_complete_function' );
 
 function register_navwalker()
 {
@@ -79,9 +91,17 @@ function front_page_search()
                                     let suggestions = Object.values(users).map((user) => {
                                         let suggestion = document.createElement('a');
                                         suggestion.setAttribute('href', '<?php echo get_site_url() ?>/user/' + user.user_login)
-                                        suggestion.setAttribute('class', 'text-end bg-white rounded text-dark p-2 d-block mt-2');
+                                        suggestion.setAttribute('class', 'text-start text-dark p-2 d-block d-flex align-items-center');
                                         suggestion.style.textDecoration = 'none';
-                                        suggestion.innerHTML = user.first_name;
+                                        let small = document.createElement('small');
+                                        small.innerHTML = user.first_name;
+                                        let userImage = document.createElement('img');
+                                        userImage.setAttribute('src',user.profile_img);
+                                        userImage.setAttribute('width','20px');
+                                        userImage.setAttribute('height','20px');
+                                        userImage.setAttribute('class','me-2');
+                                        suggestion.appendChild(userImage);
+                                        suggestion.appendChild(small);
                                         suggestionWrapper.innerHTML = '';
                                         return suggestion;
                                     })
@@ -131,6 +151,12 @@ function get_searched_company()
         $response[$user->data->ID] = $user->data;
         // add first name
         $response[$user->data->ID]->first_name = get_user_meta($user->data->ID, 'first_name')[0];
+		$userProfilePicName = get_user_meta($user->data->ID, 'profile_photo')[0];
+		if($userProfilePicName){
+			$response[$user->data->ID]->profile_img = get_site_url().'/wp-content/uploads/ultimatemember/'.$user->data->ID.'/'.$userProfilePicName;
+		}else{
+            $response[$user->data->ID]->profile_img = get_template_directory_uri().'/assets/img/default.jpg';
+        }
         // $response[$user->data->ID]->offers = get_posts(array(
         //     'numberposts'      => 3,
         //     'post_type'        => 'offer'

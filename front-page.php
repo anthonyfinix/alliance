@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div class="py-5" style="background-color: #ebebeb;">
+    <div class="py-5 company-wrapper" style="background-color: #ebebeb;">
         <div class="container">
             <div class="d-flex align-items-center justify-content-between mb-3 px-md-3">
                 <div>

@@ -203,18 +203,18 @@ Use it to make something cool, have fun, and share what you've learned with othe
   transition: all 0.3s ease-in;
 }
 @media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
-  .header-cover{
+  .header-cover {
     min-height: 250px;
   }
-  .filter-wrapper  select{
+  .filter-wrapper select {
     width: 100px;
   }
-  .filter-wrapper .service-type-wrapper{
+  .filter-wrapper .service-type-wrapper {
     margin-right: 0px !important;
     margin-bottom: 5px;
     margin-top: 10px;
   }
-  .filter-wrapper  .d-flex{
+  .filter-wrapper .d-flex {
     justify-content: space-between !important;
   }
   .my-circle-btn {
@@ -302,6 +302,11 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .header-cover {
   position: relative;
 }
+.company-wrapper{
+  background-image: url('./assets/img/background.jpg');
+  background-size: cover;
+
+}
 .header-cover:after {
   content: "";
   position: absolute;
@@ -330,43 +335,39 @@ Use it to make something cool, have fun, and share what you've learned with othe
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#003262",endColorstr="#007bf0",GradientType=1);
 }
-.initiative-badge{
+.initiative-badge {
   opacity: 0;
-  animation: bounce .5s ease-out .5s alternate forwards;
+  animation: bounce 0.5s ease-out 0.5s alternate forwards;
 }
-@keyframes bounce{
-  0%{
+@keyframes bounce {
+  0% {
     transform: translateY(5px);
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
-.view-all-posts-button{
-  transition: .2s ease-out all;
+.view-all-posts-button {
+  transition: 0.2s ease-out all;
 }
-.view-all-posts-button:hover{
+.view-all-posts-button:hover {
   border-color: #007bff !important;
 }
-.view-all-posts-button:hover > span{
+.view-all-posts-button:hover > span {
   transform: translateX(4px);
 }
-.view-all-posts-button > span{
-  transition: .2s ease-in all;
+.view-all-posts-button > span {
+  transition: 0.2s ease-in all;
 }
-.search-close-button:hover,.search-button:hover{
+.search-close-button:hover,
+.search-button:hover {
   cursor: pointer;
 }
-@media (max-width: 765px) {
-  .header-cover{
-    height: 300px !important;
-  }
-  .my-circle-btn{
-    background-color: white;
-    color: white;
-    margin-bottom: 10px;
-  }
-  .my-circle-btn > .nav-link{
-    color: black !important;
-  }
+.search-suggestion-wrapper {
+  position: absolute;
+  right: 30px;
+  top: 45px;
+  background-color: white;
+  width: calc(100vw - 100px);
+  border-radius: 3px;
 }

@@ -137,10 +137,12 @@ background-position: top center;
             <h1 class="text-center fw-bold my-5 py-5" style="opacity: 0.3;">No User Found</h1>
             <?php
         } else {
-
             foreach ($users as $user) { ?>
                 <?php
                 $userId = $user->id;
+                if (isset(get_user_meta($userId, 'account_status')[0]) && get_user_meta($userId, 'account_status')[0] != 'approved') {
+                    continue;
+                }
                 if (isset($start_with) && $start_with != '*' && (strtoupper($user->first_name[0]) != $start_with)) {
                     continue;
                 }

@@ -58,10 +58,7 @@
                     <?php if (is_front_page()) : ?>
                         <div class="text-white d-md-flex d-none align-items-center search-wrapper" style="position: relative;">
                             <input class="search-textbox form-control" style="display: none;" type="text" />
-                            <div class="search-suggestion-wrapper" style="position: absolute;
-                        right: 30px;
-                        top:45px;
-                        max-width:60vw"></div>
+                            <div class="search-suggestion-wrapper"></div>
                             <span class="material-icons ms-3 search-button">search</span>
                         </div>
                     <?php endif ?>
