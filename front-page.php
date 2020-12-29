@@ -16,7 +16,7 @@
     <div class="text-white w-100" style="position: absolute; bottom: 20px">
         <div class="d-md-flex justify-content-between container align-items-center">
             <div class="initiative-badge bg-white text-dark px-3 py-2 text-center" style="border-radius:20px">
-                <small style="font-weight:normal;font-size:13px;color:#0077e9">Initiative by E Product Zone Pvt. Ltd</small>
+                <small style="font-weight:normal;font-size:13px;color:#0077e9">an initiative by E Product Zone Pvt. Ltd</small>
             </div>
             <div class="d-none d-md-flex">
                 <small class="mb-0 me-3">collaborators and their offers</small>

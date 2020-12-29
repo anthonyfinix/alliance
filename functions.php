@@ -9,17 +9,13 @@ wp_enqueue_script('owl-carousel', get_template_directory_uri() . '/assets/owlCar
 wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array('jquery', 'bootstrap', 'owl-carousel'));
 
 // UM Action
-function um_registration_complete_function( $args ) {
-
-//php mailer variables
-  $to = 'support@eproductzone.com';
-  $subject = "New Company Registered";
-  $message = $args;
-    $sent = wp_mail($to, $subject, strip_tags($message), $headers);
- }
-
+function um_registration_complete_function($args)
+{
+    wp_mail('support@eproductzone.com', "New Company Registered", "New Company Regisetered");
+    add_user_meta(intval(strip_tags($args)), 'first_login', true);
+}
 //Here put your Validation and send mail
-add_action( 'um_registration_complete', 'um_registration_complete_function' );
+add_action('um_registration_complete', 'um_registration_complete_function');
 
 function register_navwalker()
 {
@@ -32,7 +28,6 @@ register_nav_menus(
         'primary-menu' => __('Primary Menu'),
     )
 );
-
 // load more company
 add_action('wp_footer', 'front_page_search');
 function front_page_search()
@@ -40,6 +35,25 @@ function front_page_search()
 ?>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
+            <?php
+            if (get_user_meta(get_current_user_id(), 'first_login')[0] == 1) {
+            ?>
+                console.log('first_login');
+                document.querySelectorAll('#navbarNav .nav-item').forEach(navItem => {
+                    if (navItem.querySelector('.nav-link').innerHTML == 'Profile') {
+                        let location = navItem.querySelector('.nav-link').getBoundingClientRect();
+                        let tooltipBox = document.createElement('div');
+                        tooltipBox.innerHTML = ' <span class="material-icons text-white" style="position: absolute;left:50px;top:-14px">eject</span> please take your time filling your company\'s details and adding new offers';
+                        console.log(location);
+                        console.log(tooltipBox);
+                        tooltipBox.setAttribute('style', 'position:fixed;left:' + (location.left-20) + 'px;top:'+(location.bottom+13)+'px;z-index:5;width:130px;font-size:14px');
+                        tooltipBox.setAttribute('class', 'bg-white p-2 rounded shadow firstlogin-tooltip')
+                        document.querySelector('body').appendChild(tooltipBox)
+                    };
+                });
+            <?php
+                update_user_meta(get_current_user_id(), 'first_login', 0);
+            } ?>
             let searchWrapper = document.querySelector('.search-wrapper');
             let searchButton = searchWrapper.querySelector('.search-button');
             let parentNav = searchWrapper.parentNode.querySelectorAll('.nav-item');
@@ -71,6 +85,7 @@ function front_page_search()
                 searchWrapper.parentNode.classList.add('w-100');
                 searchWrapper.classList.add('flex-grow-1');
                 searchWrapper.querySelector('.search-textbox').style.display = 'block';
+                searchWrapper.querySelector('.search-textbox').focus();
                 searchWrapper.querySelector('.search-textbox').addEventListener('keyup', function() {
                     if (this.value != '') {
                         let searchingIcon = document.createElement('span');
@@ -85,10 +100,11 @@ function front_page_search()
                         jQuery.post("<?php echo admin_url('admin-ajax.php'); ?>", data, (response) => {
                             searchWrapper.removeChild(searchingIcon);
                             suggestionWrapper.innerHTML = '';
-                            let users = JSON.parse(response);
+                            response = JSON.parse(response)
+                            let users = response.users;
                             if (!!searchWrapper.querySelector('.search-close-button')) {
                                 if (Object.keys(users).length > 0 && (searchWrapper.querySelector('.search-textbox').value.length > 0)) {
-                                    let suggestions = Object.values(users).map((user) => {
+                                    let usersSuggestion = Object.values(users).map((user) => {
                                         let suggestion = document.createElement('a');
                                         suggestion.setAttribute('href', '<?php echo get_site_url() ?>/user/' + user.user_login)
                                         suggestion.setAttribute('class', 'text-start text-dark p-2 d-block d-flex align-items-center');
@@ -96,20 +112,42 @@ function front_page_search()
                                         let small = document.createElement('small');
                                         small.innerHTML = user.first_name;
                                         let userImage = document.createElement('img');
-                                        userImage.setAttribute('src',user.profile_img);
-                                        userImage.setAttribute('width','20px');
-                                        userImage.setAttribute('height','20px');
-                                        userImage.setAttribute('class','me-2');
+                                        userImage.setAttribute('src', user.profile_img);
+                                        userImage.setAttribute('width', '20px');
+                                        userImage.setAttribute('height', '20px');
+                                        userImage.setAttribute('class', 'me-2');
                                         suggestion.appendChild(userImage);
                                         suggestion.appendChild(small);
                                         suggestionWrapper.innerHTML = '';
                                         return suggestion;
                                     })
-                                    suggestions.forEach(suggestion => {
+                                    let userHeading = document.createElement('h5');
+                                    userHeading.setAttribute('class', 'text-dark ms-2 mt-2');
+                                    userHeading.innerHTML = 'Companies';
+                                    suggestionWrapper.setAttribute('style', 'width:' + document.querySelector('.search-textbox').getBoundingClientRect().width + 'px');
+                                    suggestionWrapper.appendChild(userHeading);
+                                    usersSuggestion.forEach(suggestion => {
                                         suggestionWrapper.appendChild(suggestion)
                                     })
+                                    suggestionWrapper.appendChild(document.createElement('hr'));
+                                    let postHeading = document.createElement('h5');
+                                    postHeading.setAttribute('class', 'text-dark ms-2');
+                                    postHeading.innerHTML = 'Offers';
+                                    suggestionWrapper.appendChild(postHeading);
+                                    let posts = response.posts;
+                                    let postsSuggestion = posts.map(post => {
+                                        let suggestion = document.createElement('a');
+                                        suggestion.setAttribute('href', post.guid);
+                                        suggestion.setAttribute('style', 'text-decoration:none');
+                                        suggestion.setAttribute('class', 'd-block text-dark p-2');
+                                        suggestion.innerHTML = post.post_title;
+                                        return suggestion;
+                                    })
+                                    postsSuggestion.forEach(suggestion => {
+                                        suggestionWrapper.appendChild(suggestion);
+                                    })
                                 }
-                                console.log(users);
+                                console.log(response);
                             };
                         });
                     } else {
@@ -142,20 +180,31 @@ function get_searched_company()
         )
     ));
     $users = $query->get_results();
+    $query = new WP_Query(array(
+        's' => $searchString,
+        'number' => 3,
+        'post_type' => 'offer',
+        'post_status' => 'published'
+    ));
     $response = array();
+    if ($query->post_count > 0) {
+        $response['posts'] = $query->posts;
+    } else {
+        $response['posts'] = array();
+    }
     foreach ($users as $key => $user) {
         // check approved or not
         if (get_user_meta($user->data->ID, 'account_status')[0] != 'approved') {
             continue;
         }
-        $response[$user->data->ID] = $user->data;
+        $response['users'][$user->data->ID] = $user->data;
         // add first name
-        $response[$user->data->ID]->first_name = get_user_meta($user->data->ID, 'first_name')[0];
-		$userProfilePicName = get_user_meta($user->data->ID, 'profile_photo')[0];
-		if($userProfilePicName){
-			$response[$user->data->ID]->profile_img = get_site_url().'/wp-content/uploads/ultimatemember/'.$user->data->ID.'/'.$userProfilePicName;
-		}else{
-            $response[$user->data->ID]->profile_img = get_template_directory_uri().'/assets/img/default.jpg';
+        $response['users'][$user->data->ID]->first_name = get_user_meta($user->data->ID, 'first_name')[0];
+        $userProfilePicName = get_user_meta($user->data->ID, 'profile_photo')[0];
+        if ($userProfilePicName) {
+            $response['users'][$user->data->ID]->profile_img = get_site_url() . '/wp-content/uploads/ultimatemember/' . $user->data->ID . '/' . $userProfilePicName;
+        } else {
+            $response['users'][$user->data->ID]->profile_img = get_template_directory_uri() . '/assets/img/default.jpg';
         }
         // $response[$user->data->ID]->offers = get_posts(array(
         //     'numberposts'      => 3,
@@ -163,6 +212,7 @@ function get_searched_company()
         // ));
     }
     print_r(json_encode($response));
+
     wp_die();
 }
 

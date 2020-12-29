@@ -302,10 +302,9 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .header-cover {
   position: relative;
 }
-.company-wrapper{
-  background-image: url('./assets/img/background.jpg');
+.company-wrapper {
+  background-image: url("./assets/img/background.jpg");
   background-size: cover;
-
 }
 .header-cover:after {
   content: "";
@@ -368,6 +367,21 @@ Use it to make something cool, have fun, and share what you've learned with othe
   right: 30px;
   top: 45px;
   background-color: white;
-  width: calc(100vw - 100px);
+  /* width: calc(100vw - 100px); */
   border-radius: 3px;
+}
+.firstlogin-tooltip {
+  animation: 1s ease-in-out .5s infinite alternate hover;
+}
+.profile-image > form{
+  display: none;
+}
+.profile-image:hover > form{
+  display: block;
+}
+
+@keyframes hover {
+  100%{
+    transform: translateY(5px);
+  }
 }
